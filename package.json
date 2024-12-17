@@ -9,13 +9,59 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "pysparkle.helloWorld",
-        "title": "Hello World"
+        "command": "pysparkle.server.restart",
+        "title": "Restart Language Server",
+        "category": "PySparkle"
+      }
+    ],
+    "configuration": {
+      "title": "PySparkle",
+      "properties": {
+        "pysparkle.server.cwd": {
+          "type": "string",
+          "default": "${workspaceFolder}",
+          "description": "The working directory of the language server"
+        },
+        "pysparkle.server.pythonPath": {
+          "type": "string",
+          "default": "python",
+          "description": "Path to the Python interpreter used to run the language server"
+        },
+        "pysparkle.server.launchScript": {
+          "type": "string",
+          "default": "${extensionPath}/server.py",
+          "description": "Path to the language server script"
+        },
+        "pysparkle.server.launchArgs": {
+          "type": "array",
+          "default": [],
+          "description": "Additional arguments to pass to the language server"
+        }
+      }
+    },
+    "semanticTokenScopes": [
+      {
+        "scopes": {
+          "primitive": [
+            "storage.type"
+          ],
+          "constant": [
+            "variable.other.constant"
+          ],
+          "module": [
+            "entity.name.namespace"
+          ],
+          "error": [
+            "invalid"
+          ]
+        }
       }
     ]
   },
@@ -25,17 +71,22 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "format": "prettier --write ."
   },
   "devDependencies": {
-    "@types/vscode": "^1.96.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.96.0",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
-    "eslint": "^9.16.0",
-    "typescript": "^5.7.2",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.16.0",
+    "prettier": "3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
   }
 }
